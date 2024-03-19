@@ -40,10 +40,12 @@ public class GestorProveedores {
     
     public static void mostrarRegistroJuegos() {
         ventanaJuegos.setVisible(true);
+        ventanaJuegos.mostrarDatosColaEnTabla();
     }
     
     public static void mostrarRegistroProveedores() {
         ventanaProveedores.setVisible(true);
+        ventanaProveedores.mostrarDatosColaEnTabla();
     }
 
     //Ocultar ventanas

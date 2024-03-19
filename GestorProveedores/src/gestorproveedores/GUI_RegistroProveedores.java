@@ -60,6 +60,11 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
         });
 
         btn_Cerrar.setText("Cerrar");
+        btn_Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CerrarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("ID Proveedor:");
 
@@ -147,6 +152,7 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
             for (int i = 0; i < GestorProveedores.colaProveedores.currentSize; i++) {
                 Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.theArray[(GestorProveedores.colaProveedores.front + i) % GestorProveedores.colaProveedores.theArray.length];
                 tableModel.addRow(new Object[]{proveedor.getIdProveedor(), proveedor.getDescripcion()});
+                //System.out.println("test" );
             }
         }       
     }
@@ -176,6 +182,12 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
         //System.out.println("Contenido de la cola de proveedores:");
         //System.out.println(GestorProveedores.colaProveedores.toString());
     }//GEN-LAST:event_btn_GuardarActionPerformed
+
+    private void btn_CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CerrarActionPerformed
+        // TODO add your handling code here:
+        GestorProveedores.ocultarRegistroProveedores();
+        GestorProveedores.mostrarMenuPrincipal();
+    }//GEN-LAST:event_btn_CerrarActionPerformed
 
     /**
      * @param args the command line arguments

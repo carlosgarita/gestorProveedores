@@ -4,6 +4,8 @@
  */
 package gestorproveedores;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -16,7 +18,20 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
     public GUI_RegistroJuegos() {
         initComponents();
     }
+    
+    public void mostrarDatosColaEnTabla() {
+        if(GestorProveedores.colaProveedores != null) {
+            DefaultTableModel tableModel = (DefaultTableModel) tbl_proveedoresRegistrados.getModel();
+            tableModel.setRowCount(0); // Limpiar la tabla antes de agregar nuevos datos
 
+            // Recorrer la cola y agregar cada elemento a la tabla
+            for (int i = 0; i < GestorProveedores.colaProveedores.currentSize; i++) {
+                Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.theArray[(GestorProveedores.colaProveedores.front + i) % GestorProveedores.colaProveedores.theArray.length];
+                tableModel.addRow(new Object[]{proveedor.getIdProveedor(), proveedor.getDescripcion()});
+                System.out.println("test" );
+            }
+        }       
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
