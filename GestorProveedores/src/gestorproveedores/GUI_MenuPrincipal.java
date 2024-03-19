@@ -26,15 +26,25 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_registroProveedores = new javax.swing.JButton();
+        btn_registroJuegos = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Registro de Proveedores");
+        btn_registroProveedores.setText("Registro de Proveedores");
+        btn_registroProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registroProveedoresActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Registro de Juegos");
+        btn_registroJuegos.setText("Registro de Juegos");
+        btn_registroJuegos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registroJuegosActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("Gestor de Proveedores de Juegos");
@@ -48,10 +58,10 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(125, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addContainerGap(109, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_registroProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                    .addComponent(btn_registroJuegos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(118, 118, 118))
         );
         layout.setVerticalGroup(
@@ -60,14 +70,26 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(82, 82, 82)
-                .addComponent(jButton1)
+                .addComponent(btn_registroProveedores)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btn_registroJuegos)
                 .addContainerGap(112, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_registroProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registroProveedoresActionPerformed
+        // TODO add your handling code here:
+        GestorProveedores.mostrarRegistroProveedores();
+        GestorProveedores.ocultarMenuPrincipal();
+    }//GEN-LAST:event_btn_registroProveedoresActionPerformed
+
+    private void btn_registroJuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registroJuegosActionPerformed
+        // TODO add your handling code here:
+        GestorProveedores.mostrarRegistroJuegos();
+        GestorProveedores.ocultarMenuPrincipal();
+    }//GEN-LAST:event_btn_registroJuegosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -105,8 +127,8 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_registroJuegos;
+    private javax.swing.JButton btn_registroProveedores;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

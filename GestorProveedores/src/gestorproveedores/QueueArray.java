@@ -21,9 +21,9 @@ public final class QueueArray<AnyType>
     * Construct the queue.
     */
     
-    private AnyType[] theArray;
-    private int currentSize;
-    private int front;
+    AnyType[] theArray;
+    int currentSize;
+    int front;
     private int back;
 
     private static final int DEFAULT_CAPACITY = 10;

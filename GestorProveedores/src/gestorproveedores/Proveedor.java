@@ -13,6 +13,11 @@ public class Proveedor {
     private String descripcion;
     private Juego juegos[];
     
+    @Override
+    public String toString() {
+        return "ID: " + idProveedor + ", Descripción: " + descripcion;
+    }
+    
     // Métodos get y set para idProveedor
     
     public int getIdProveedor() {

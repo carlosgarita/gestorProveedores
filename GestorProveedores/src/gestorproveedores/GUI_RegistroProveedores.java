@@ -4,6 +4,8 @@
  */
 package gestorproveedores;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -13,10 +15,17 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
     /**
      * Creates new form GUI_RegistroProveedores
      */
+    
     public GUI_RegistroProveedores() {
         initComponents();
+        lbl_IDProveedor.setText(String.valueOf(GestorProveedores.idProveedor));
+        
     }
 
+    private int id;
+    private String descripcion;
+    public Proveedor proveedor;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +53,11 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
 
         btn_Guardar.setBackground(new java.awt.Color(51, 255, 51));
         btn_Guardar.setText("Guardar");
+        btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_GuardarActionPerformed(evt);
+            }
+        });
 
         btn_Cerrar.setText("Cerrar");
 
@@ -123,6 +137,45 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void mostrarDatosColaEnTabla() {
+        if(GestorProveedores.colaProveedores != null) {
+            DefaultTableModel tableModel = (DefaultTableModel) tbl_proveedoresRegistrados.getModel();
+            tableModel.setRowCount(0); // Limpiar la tabla antes de agregar nuevos datos
+
+            // Recorrer la cola y agregar cada elemento a la tabla
+            for (int i = 0; i < GestorProveedores.colaProveedores.currentSize; i++) {
+                Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.theArray[(GestorProveedores.colaProveedores.front + i) % GestorProveedores.colaProveedores.theArray.length];
+                tableModel.addRow(new Object[]{proveedor.getIdProveedor(), proveedor.getDescripcion()});
+            }
+        }       
+    }
+    
+    private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
+        // TODO add your handling code here:
+        id = Integer.parseInt(lbl_IDProveedor.getText());
+        descripcion = txt_descripcion.getText();
+
+        proveedor = new Proveedor();
+        
+        proveedor.setIdProveedor(id);
+        proveedor.setDescripcion(descripcion);
+        
+        GestorProveedores.colaProveedores.enqueue(proveedor);
+        
+        GestorProveedores.idProveedor++;
+        lbl_IDProveedor.setText(String.valueOf(GestorProveedores.idProveedor));
+        txt_descripcion.setText("");
+        
+        // Mostrar los datos actualizados de la cola en la tabla
+        mostrarDatosColaEnTabla();
+        
+        //System.out.println("El valor: " + GestorProveedores.colaProveedores.getFront());
+        
+        // Mostrar el contenido de la cola en la consola
+        //System.out.println("Contenido de la cola de proveedores:");
+        //System.out.println(GestorProveedores.colaProveedores.toString());
+    }//GEN-LAST:event_btn_GuardarActionPerformed
 
     /**
      * @param args the command line arguments
