@@ -4,6 +4,7 @@
  */
 package gestorproveedores;
 
+import java.util.UUID;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -47,16 +48,13 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
         // Agregar listener a la tabla
         tbl_proveedoresRegistrados.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
         // Verificar si la selección de la fila cambió y no está ajustándose
-        if (!e.getValueIsAdjusting()) {
-            asdf();
-        }
-    });
+            if (!e.getValueIsAdjusting()) {
+                idSeleccionado = obtenerIdProveedorSeleccionado();
+                System.out.println("ID seleccionado: " + idSeleccionado);
+            }
+        });
     }
-    
-    public void asdf() {
-        idSeleccionado = obtenerIdProveedorSeleccionado();
-        System.out.println("ID seleccionado: " + idSeleccionado);
-    }
+
     public int obtenerIdProveedorSeleccionado() {
 
         int selectedRow = tbl_proveedoresRegistrados.getSelectedRow();
@@ -87,6 +85,18 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
         }
         return null; // Si no se encuentra el ID
     }
+    
+    public static UUID GenerarUUID() {
+          // Generar un UUID aleatorio
+          UUID uuid = UUID.randomUUID();
+          
+          //String uuidString = uuid.toString();
+
+          // Imprimir el UUID
+          //System.out.println("UUID aleatorio: " + uuid);
+          
+          return uuid; 
+      }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,7 +125,7 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
         txt_edadMinima = new javax.swing.JTextField();
         cmbx_categoriaInteraccion = new javax.swing.JComboBox<>();
         cmbx_categoriaAccesorios = new javax.swing.JComboBox<>();
-        cmbx_Mecanica = new javax.swing.JComboBox<>();
+        cmbx_mecanica = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -171,7 +181,7 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
 
         cmbx_categoriaAccesorios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "De cartas", "De rol", "De fichas", "De miniaturas" }));
 
-        cmbx_Mecanica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Abstracto", "Roles ocultos", "Estrategia", "Aventura", "Dungeon crawler" }));
+        cmbx_mecanica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Abstracto", "Roles ocultos", "Estrategia", "Aventura", "Dungeon crawler" }));
 
         jLabel10.setText("Proveedor:");
 
@@ -199,7 +209,7 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txt_numeroParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmbx_Mecanica, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbx_mecanica, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cmbx_categoriaAccesorios, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cmbx_categoriaInteraccion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -252,7 +262,7 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbx_Mecanica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbx_mecanica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -281,6 +291,66 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         // TODO add your handling code here:
         proveedorSeleccionado = buscarPorId(idSeleccionado);
+
+        UUID codigoUUID = GenerarUUID();
+        String nombre = txt_nombre.getText();
+        String categoriaInteraccion = (String) cmbx_categoriaInteraccion.getSelectedItem();
+        String categoriaAccesorios = (String) cmbx_categoriaAccesorios.getSelectedItem();
+        String mecanica = (String) cmbx_mecanica.getSelectedItem();
+        String numeroParticipantes = txt_numeroParticipantes.getText();
+        int edadMinima = Integer.parseInt(txt_edadMinima.getText());
+
+        Juego juego = new Juego();
+        juego.setCodigoGUID(codigoUUID);
+        juego.setNombre(nombre);
+        juego.setCategoriaAccesorios(categoriaAccesorios);
+        juego.setCategoriaInteraccion(categoriaInteraccion);
+        juego.setMecanica(mecanica);
+        juego.setNumeroParticipantes(numeroParticipantes);
+        juego.setEdadMinima(edadMinima);
+
+        Juego[] juegos = proveedorSeleccionado.getJuegos();
+
+        if (juegos == null) {
+            // Inicializar el array "juegos[]"
+            juegos = new Juego[50]; // Especificar el tamaño del array
+            proveedorSeleccionado.setJuegos(juegos);
+        }
+
+        // Encontrar la primera posición vacía en el arreglo
+        int indiceDisponible = 0;
+        while (indiceDisponible < juegos.length && juegos[indiceDisponible] != null) {
+            indiceDisponible++;
+        }
+
+        // Verificar que hay espacio disponible en el arreglo
+        if (indiceDisponible < juegos.length) {
+            juegos[indiceDisponible] = juego;
+
+            //Para corroborar:
+            UUID codigoJuego = juego.getCodigoGUID();
+            String nombreJuego = juego.getNombre();
+            String categoriaInteraccionJuego = juego.getCategoriaInteraccion();
+            String categoriaAccesoriosJuego = juego.getCategoriaAccesorios();
+            String mecanicaJuego = juego.getMecanica();
+            String numeroParticipantesJuego = juego.getNumeroParticipantes();
+            int edadMinimsJuego = juego.getEdadMinima();
+                    
+            System.out.println("Codigo del juego guardado: " + codigoJuego);
+            System.out.println("Nombre del juego guardado: " + nombreJuego);
+            System.out.println("Categ. Inter. del juego guardado: " + categoriaInteraccionJuego);
+            System.out.println("Categ. Acces. del juego guardado: " + categoriaAccesoriosJuego);
+            System.out.println("Mecanica del juego guardado: " + mecanicaJuego);
+            System.out.println("Numero Part. del juego guardado: " + numeroParticipantesJuego);
+            System.out.println("Edad Minima del juego guardado: " + edadMinimsJuego);
+        } else {
+            System.out.println("No hay espacio disponible para guardar el juego.");
+        }
+
+        //System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
+
+        
+        
         System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
@@ -322,9 +392,9 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cerrar;
     private javax.swing.JButton btn_Guardar;
-    private javax.swing.JComboBox<String> cmbx_Mecanica;
     private javax.swing.JComboBox<String> cmbx_categoriaAccesorios;
     private javax.swing.JComboBox<String> cmbx_categoriaInteraccion;
+    private javax.swing.JComboBox<String> cmbx_mecanica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

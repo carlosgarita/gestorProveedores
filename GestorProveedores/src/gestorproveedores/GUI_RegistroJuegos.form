@@ -45,7 +45,7 @@
                           <Group type="103" alignment="0" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Component id="txt_numeroParticipantes" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
-                                  <Component id="cmbx_Mecanica" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="cmbx_mecanica" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
                                   <Component id="cmbx_categoriaAccesorios" alignment="1" min="-2" pref="112" max="-2" attributes="0"/>
                                   <Component id="cmbx_categoriaInteraccion" alignment="1" min="-2" pref="113" max="-2" attributes="0"/>
                                   <Component id="txt_nombre" alignment="1" min="-2" pref="114" max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cmbx_Mecanica" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbx_mecanica" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -282,7 +282,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cmbx_Mecanica">
+    <Component class="javax.swing.JComboBox" name="cmbx_mecanica">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="5">

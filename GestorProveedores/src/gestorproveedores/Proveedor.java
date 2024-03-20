@@ -11,7 +11,7 @@ package gestorproveedores;
 public class Proveedor {
     private int idProveedor;
     private String descripcion;
-    private Juego juegos[];
+    private Juego juegos[] = new Juego[50];;
     
     @Override
     public String toString() {
