@@ -41,6 +41,7 @@ public class GestorProveedores {
     public static void mostrarRegistroJuegos() {
         ventanaJuegos.setVisible(true);
         ventanaJuegos.mostrarDatosColaEnTabla();
+        ventanaJuegos.listenerTabla();
     }
     
     public static void mostrarRegistroProveedores() {

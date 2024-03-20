@@ -4,6 +4,8 @@
  */
 package gestorproveedores;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +21,10 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
         initComponents();
     }
     
+    //RECUERDE QUE LA TABLA SE LLENA CUANDO 
+    //SE HACE VISIBLE LA VENTANA
+    //DESDE LA CLASE GESTORPROVEEDORES. NO DESDE AQUI.
+    
     public void mostrarDatosColaEnTabla() {
         if(GestorProveedores.colaProveedores != null) {
             DefaultTableModel tableModel = (DefaultTableModel) tbl_proveedoresRegistrados.getModel();
@@ -28,10 +34,60 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
             for (int i = 0; i < GestorProveedores.colaProveedores.currentSize; i++) {
                 Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.theArray[(GestorProveedores.colaProveedores.front + i) % GestorProveedores.colaProveedores.theArray.length];
                 tableModel.addRow(new Object[]{proveedor.getIdProveedor(), proveedor.getDescripcion()});
-                System.out.println("test" );
+                //System.out.println("test" );
             }
-        }       
+        }  
+        
     }
+    
+    int idSeleccionado;
+    
+    public void listenerTabla() {
+        System.out.println("XXX");
+        // Agregar listener a la tabla
+        tbl_proveedoresRegistrados.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+        // Verificar si la selección de la fila cambió y no está ajustándose
+        if (!e.getValueIsAdjusting()) {
+            asdf();
+        }
+    });
+    }
+    
+    public void asdf() {
+        idSeleccionado = obtenerIdProveedorSeleccionado();
+        System.out.println("ID seleccionado: " + idSeleccionado);
+    }
+    public int obtenerIdProveedorSeleccionado() {
+
+        int selectedRow = tbl_proveedoresRegistrados.getSelectedRow();
+
+        if (selectedRow < 0) {
+            // No se ha seleccionado ninguna fila
+            return -1;
+        }
+
+        DefaultTableModel tableModel = (DefaultTableModel) tbl_proveedoresRegistrados.getModel();
+
+        int id = (int) tableModel.getValueAt(selectedRow, 0);
+        //idSeleccionado = id;
+        //System.out.println("seleccionada fila");
+        //idSeleccionado = id;
+        return id;
+        
+    }
+    
+    public Proveedor proveedorSeleccionado;
+    
+    public Proveedor buscarPorId(int id) {
+        for (int i = 0; i < GestorProveedores.colaProveedores.currentSize; i++) {
+          Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.theArray[(GestorProveedores.colaProveedores.front + i) % GestorProveedores.colaProveedores.theArray.length];
+          if (proveedor.getIdProveedor() == id) {
+            return proveedor;
+          }
+        }
+        return null; // Si no se encuentra el ID
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,8 +125,18 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
 
         btn_Guardar.setBackground(new java.awt.Color(51, 255, 51));
         btn_Guardar.setText("Guardar");
+        btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_GuardarActionPerformed(evt);
+            }
+        });
 
         btn_Cerrar.setText("Cerrar");
+        btn_Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CerrarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("DNI:");
 
@@ -205,6 +271,18 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CerrarActionPerformed
+        // TODO add your handling code here:
+        GestorProveedores.ocultarRegistroJuegos();
+        GestorProveedores.mostrarMenuPrincipal();
+    }//GEN-LAST:event_btn_CerrarActionPerformed
+
+    private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
+        // TODO add your handling code here:
+        proveedorSeleccionado = buscarPorId(idSeleccionado);
+        System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
+    }//GEN-LAST:event_btn_GuardarActionPerformed
 
     /**
      * @param args the command line arguments
