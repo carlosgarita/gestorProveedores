@@ -290,44 +290,36 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         // TODO add your handling code here:
-        proveedorSeleccionado = buscarPorId(idSeleccionado);
-
-        UUID codigoUUID = GenerarUUID();
-        String nombre = txt_nombre.getText();
-        String categoriaInteraccion = (String) cmbx_categoriaInteraccion.getSelectedItem();
-        String categoriaAccesorios = (String) cmbx_categoriaAccesorios.getSelectedItem();
-        String mecanica = (String) cmbx_mecanica.getSelectedItem();
-        String numeroParticipantes = txt_numeroParticipantes.getText();
-        int edadMinima = Integer.parseInt(txt_edadMinima.getText());
-
-        Juego juego = new Juego();
-        juego.setCodigoGUID(codigoUUID);
-        juego.setNombre(nombre);
-        juego.setCategoriaAccesorios(categoriaAccesorios);
-        juego.setCategoriaInteraccion(categoriaInteraccion);
-        juego.setMecanica(mecanica);
-        juego.setNumeroParticipantes(numeroParticipantes);
-        juego.setEdadMinima(edadMinima);
-
-        Juego[] juegos = proveedorSeleccionado.getJuegos();
-
-        if (juegos == null) {
-            // Inicializar el array "juegos[]"
-            juegos = new Juego[50]; // Especificar el tamaño del array
-            proveedorSeleccionado.setJuegos(juegos);
-        }
-
-        // Encontrar la primera posición vacía en el arreglo
-        int indiceDisponible = 0;
-        while (indiceDisponible < juegos.length && juegos[indiceDisponible] != null) {
-            indiceDisponible++;
-        }
-
-        // Verificar que hay espacio disponible en el arreglo
-        if (indiceDisponible < juegos.length) {
-            juegos[indiceDisponible] = juego;
-
-            //Para corroborar:
+    proveedorSeleccionado = buscarPorId(idSeleccionado);
+    
+    UUID codigoUUID = GenerarUUID();
+    String nombre = txt_nombre.getText();
+    String categoriaInteraccion = (String) cmbx_categoriaInteraccion.getSelectedItem();
+    String categoriaAccesorios = (String) cmbx_categoriaAccesorios.getSelectedItem();
+    String mecanica = (String) cmbx_mecanica.getSelectedItem();
+    String numeroParticipantes = txt_numeroParticipantes.getText();
+    int edadMinims = Integer.parseInt(txt_edadMinima.getText());
+    
+    Juego juego = new Juego();
+    juego.setCodigoGUID(codigoUUID);
+    juego.setNombre(nombre);
+    juego.setCategoriaInteraccion(categoriaInteraccion);
+    juego.setCategoriaAccesorios(categoriaAccesorios);
+    juego.setMecanica(mecanica);
+    juego.setNumeroParticipantes(numeroParticipantes);
+    juego.setEdadMinima(edadMinims);
+    
+    StackArray<Juego> juegosStack = proveedorSeleccionado.getJuegosStack();
+    
+    if (juegosStack == null) {
+        juegosStack = new StackArray<>(); // Crear una nueva instancia de StackArray
+        proveedorSeleccionado.setJuegosStack(juegosStack);
+    }
+    
+    juegosStack.push(juego); // Agregar el juego a la pila
+    
+    
+    //Para corroborar:
             UUID codigoJuego = juego.getCodigoGUID();
             String nombreJuego = juego.getNombre();
             String categoriaInteraccionJuego = juego.getCategoriaInteraccion();
@@ -343,15 +335,9 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
             System.out.println("Mecanica del juego guardado: " + mecanicaJuego);
             System.out.println("Numero Part. del juego guardado: " + numeroParticipantesJuego);
             System.out.println("Edad Minima del juego guardado: " + edadMinimsJuego);
-        } else {
-            System.out.println("No hay espacio disponible para guardar el juego.");
-        }
-
-        //System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
-
-        
-        
-        System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
+            
+            System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
+            
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     /**

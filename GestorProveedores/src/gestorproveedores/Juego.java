@@ -4,6 +4,7 @@
  */
 package gestorproveedores;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -81,5 +82,26 @@ public class Juego {
 
     public void setEdadMinima(int edadMinima) {
         this.edadMinima = edadMinima;
+    }
+    
+    // Implementación del método equals()
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Juego juego = (Juego) obj;
+        return Objects.equals(codigoGUID, juego.codigoGUID) &&
+               Objects.equals(nombre, juego.nombre) &&
+               Objects.equals(categoriaInteraccion, juego.categoriaInteraccion) &&
+               Objects.equals(categoriaAccesorios, juego.categoriaAccesorios) &&
+               Objects.equals(mecanica, juego.mecanica) &&
+               Objects.equals(numeroParticipantes, juego.numeroParticipantes) &&
+               edadMinima == juego.edadMinima;
+    }
+    
+    // Implementación del método hashCode()
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigoGUID, nombre, categoriaInteraccion, categoriaAccesorios, mecanica, numeroParticipantes, edadMinima);
     }
 }

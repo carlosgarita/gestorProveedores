@@ -11,7 +11,8 @@ package gestorproveedores;
 public class Proveedor {
     private int idProveedor;
     private String descripcion;
-    private Juego juegos[] = new Juego[50];;
+    private Juego juegos[] = new Juego[50];
+    private StackArray<Juego> juegosStack; // Pila de juegos
     
     @Override
     public String toString() {
@@ -45,5 +46,14 @@ public class Proveedor {
 
     public void setJuegos(Juego[] juegos) {
         this.juegos = juegos;
+    }
+    
+    // Métodos get y set para juegosStack
+    public StackArray<Juego> getJuegosStack() {
+        return juegosStack;
+    }
+
+    public void setJuegosStack(StackArray<Juego> juegosStack) {
+        this.juegosStack = juegosStack;
     }
 }
