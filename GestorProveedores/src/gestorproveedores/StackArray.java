@@ -118,4 +118,8 @@ public class StackArray<AnyType>
             doubleArray();
         theArray[++topOfStack] = x;
     }
+    
+    public int size() {
+        return topOfStack + 1;
+}
 }

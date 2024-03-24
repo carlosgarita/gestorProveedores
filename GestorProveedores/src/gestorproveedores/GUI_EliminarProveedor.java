@@ -4,6 +4,8 @@
  */
 package gestorproveedores;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -16,6 +18,22 @@ public class GUI_EliminarProveedor extends javax.swing.JFrame {
     public GUI_EliminarProveedor() {
         initComponents();
     }
+    
+    public void mostrarDatosColaEnTabla() {
+        if(GestorProveedores.colaProveedores != null) {
+            DefaultTableModel tableModel = (DefaultTableModel) tbl_proveedoresRegistrados.getModel();
+            tableModel.setRowCount(0); // Limpiar la tabla antes de agregar nuevos datos
+
+            // Recorrer la cola y agregar cada elemento a la tabla
+            for (int i = 0; i < GestorProveedores.colaProveedores.currentSize; i++) {
+                Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.theArray[(GestorProveedores.colaProveedores.front + i) % GestorProveedores.colaProveedores.theArray.length];
+                tableModel.addRow(new Object[]{proveedor.getIdProveedor(), proveedor.getDescripcion()});
+                //System.out.println("test" );
+            }
+        }       
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,6 +46,10 @@ public class GUI_EliminarProveedor extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btn_cerrar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_proveedoresRegistrados = new javax.swing.JTable();
+        btn_eliminarProveedor = new javax.swing.JButton();
+        lbl_Mensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,28 +63,74 @@ public class GUI_EliminarProveedor extends javax.swing.JFrame {
             }
         });
 
+        tbl_proveedoresRegistrados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "ID", "Descripción"
+            }
+        ));
+        jScrollPane1.setViewportView(tbl_proveedoresRegistrados);
+
+        btn_eliminarProveedor.setBackground(new java.awt.Color(255, 0, 0));
+        btn_eliminarProveedor.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminarProveedor.setLabel("Eliminar primer proveedor de la cola");
+        btn_eliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarProveedorActionPerformed(evt);
+            }
+        });
+
+        lbl_Mensaje.setForeground(new java.awt.Color(255, 0, 0));
+        lbl_Mensaje.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbl_Mensaje.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        lbl_Mensaje.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addContainerGap(358, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_cerrar)
-                .addGap(42, 42, 42))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_cerrar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lbl_Mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_eliminarProveedor))))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
-                .addComponent(btn_cerrar)
-                .addGap(37, 37, 37))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_Mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 65, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_eliminarProveedor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_cerrar)
+                        .addGap(31, 31, 31))))
         );
+
+        lbl_Mensaje.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -72,6 +140,21 @@ public class GUI_EliminarProveedor extends javax.swing.JFrame {
         GestorProveedores.ocultarEliminarProveedor();
         GestorProveedores.mostrarMenuPrincipal();
     }//GEN-LAST:event_btn_cerrarActionPerformed
+
+    private void btn_eliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarProveedorActionPerformed
+        // TODO add your handling code here:
+        
+        Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.getFront();
+        
+        if (proveedor.getJuegosStack() == null){
+            GestorProveedores.colaProveedores.dequeue();
+            mostrarDatosColaEnTabla();
+        } else {
+            String textoHTML = "<html>No se puede eliminar<br>proveedor.<br>Tiene juegos   de mesa relacionados.</html>";
+            lbl_Mensaje.setText(textoHTML);
+        }
+           
+    }//GEN-LAST:event_btn_eliminarProveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,6 +194,10 @@ public class GUI_EliminarProveedor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cerrar;
+    private javax.swing.JButton btn_eliminarProveedor;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_Mensaje;
+    private javax.swing.JTable tbl_proveedoresRegistrados;
     // End of variables declaration//GEN-END:variables
 }

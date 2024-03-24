@@ -20,25 +20,25 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
     }
     
     public void llenarComboBoxProveedores() {
-    // Vaciar el combobox antes de llenarlo
-    cmbx_listaProveedores.removeAllItems();
+        // Vaciar el combobox antes de llenarlo
+        cmbx_listaProveedores.removeAllItems();
 
-    QueueArray<Proveedor> proveedoresTemp = new QueueArray<>();
+        QueueArray<Proveedor> proveedoresTemp = new QueueArray<>();
 
-    // Recorrer la cola y agregar los proveedores al QueueArray temporal
-    while (!GestorProveedores.colaProveedores.isEmpty()) {
-        Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.dequeue();
-        proveedoresTemp.enqueue(proveedor);
-        String descripcion = proveedor.getDescripcion();
-        cmbx_listaProveedores.addItem(descripcion);
+        // Recorrer la cola y agregar los proveedores al QueueArray temporal
+        while (!GestorProveedores.colaProveedores.isEmpty()) {
+            Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.dequeue();
+            proveedoresTemp.enqueue(proveedor);
+            String descripcion = proveedor.getDescripcion();
+            cmbx_listaProveedores.addItem(descripcion);
+        }
+
+        // Repoblar la cola original con los proveedores del QueueArray temporal
+        while (!proveedoresTemp.isEmpty()) {
+            Proveedor proveedor = proveedoresTemp.dequeue();
+            GestorProveedores.colaProveedores.enqueue(proveedor);
+        }
     }
-
-    // Repoblar la cola original con los proveedores del QueueArray temporal
-    while (!proveedoresTemp.isEmpty()) {
-        Proveedor proveedor = proveedoresTemp.dequeue();
-        GestorProveedores.colaProveedores.enqueue(proveedor);
-    }
-  }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -156,11 +156,70 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
     
     private void btn_mostrarJuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mostrarJuegosActionPerformed
         // TODO add your handling code here:
-        String elementoSeleccionado = (String) cmbx_listaProveedores.getSelectedItem();
+    String elementoSeleccionado = (String) cmbx_listaProveedores.getSelectedItem();
+    QueueArray<Proveedor> proveedoresTemp = new QueueArray<>();
+
+    if (elementoSeleccionado != null) {
+        Proveedor proveedor;
+        Juego juego;
+        DefaultTableModel tableModel = (DefaultTableModel) tbl_juegosAsociados.getModel();
+
+        // Variable para verificar si se encontraron juegos asociados al proveedor seleccionado
+        boolean juegosEncontrados = false;
+
+        // Recorrer la cola y buscar el proveedor seleccionado
+        while (!GestorProveedores.colaProveedores.isEmpty()) {
+            proveedor = (Proveedor) GestorProveedores.colaProveedores.dequeue();
+            proveedoresTemp.enqueue(proveedor);
+
+            if (proveedor.getDescripcion().equals(elementoSeleccionado)) {
+                StackArray<Juego> listaJuegos = proveedor.getJuegosStack();
+
+                // Mostrar los juegos asociados a este proveedor
+                if (listaJuegos != null && !listaJuegos.isEmpty()) {
+                    juegosEncontrados = true; // Indicar que se encontraron juegos
+                    while (!listaJuegos.isEmpty()) {
+                        juego = listaJuegos.topAndPop();
+                        tableModel.addRow(new Object[] {
+                            juego.getCodigoGUID(),
+                            juego.getNombre(),
+                            juego.getCategoriaInteraccion(),
+                            juego.getCategoriaAccesorios(),
+                            juego.getMecanica(),
+                            juego.getNumeroParticipantes(),
+                            juego.getEdadMinima()
+                        });
+                    }
+
+                    // Devolver el proveedor a la cola original
+                    GestorProveedores.colaProveedores.enqueue(proveedor);
+
+                    // Terminar el bucle una vez que se haya encontrado el proveedor
+                    break;
+                } else {
+                    // Aquí manejas el caso en el que no hay juegos disponibles
+                    System.out.println("No hay juegos disponibles para este proveedor.");
+                    break; // Salir del bucle ya que no hay juegos asociados
+                }
+                
+                
+
+            } else {
+                // Devolver los proveedores que no coinciden con el seleccionado
+                GestorProveedores.colaProveedores.enqueue(proveedor);
+            }
+        }
         
+        // Verificar si no se encontraron juegos asociados
+        if (!juegosEncontrados) {
+            System.out.println("No se encontraron juegos asociados al proveedor seleccionado.");
+        }
         
-        
-        System.out.println("Elemento seleccionado: " + elementoSeleccionado);
+    } else {
+        System.out.println("No se ha seleccionado ningún proveedor.");
+    }
+    
+    
     }//GEN-LAST:event_btn_mostrarJuegosActionPerformed
 
     /**

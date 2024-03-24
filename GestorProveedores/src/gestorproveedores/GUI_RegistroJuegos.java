@@ -44,7 +44,7 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
     int idSeleccionado;
     
     public void listenerTabla() {
-        System.out.println("XXX");
+        //System.out.println("XXX");
         // Agregar listener a la tabla
         tbl_proveedoresRegistrados.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
         // Verificar si la selección de la fila cambió y no está ajustándose

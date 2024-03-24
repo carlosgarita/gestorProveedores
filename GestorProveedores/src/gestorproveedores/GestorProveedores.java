@@ -50,6 +50,7 @@ public class GestorProveedores {
     
     public static void mostrarEliminarProveedor() {
         ventanaEliminarProveedor.setVisible(true);
+        ventanaEliminarProveedor.mostrarDatosColaEnTabla();
     }
     
     public static void mostrarEliminarJuego() {
