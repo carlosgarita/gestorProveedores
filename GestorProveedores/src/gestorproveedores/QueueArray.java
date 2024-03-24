@@ -15,7 +15,7 @@ package gestorproveedores;
 //******************ERRORS******************************** 
 //getFront or dequeue on empty queue
 
-public final class QueueArray<AnyType>
+public final class QueueArray<AnyType> 
 {
     /**
     * Construct the queue.

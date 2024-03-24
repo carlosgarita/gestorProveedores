@@ -4,6 +4,8 @@
  */
 package gestorproveedores;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -16,6 +18,27 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
     public GUI_EliminarJuego() {
         initComponents();
     }
+    
+    public void llenarComboBoxProveedores() {
+    // Vaciar el combobox antes de llenarlo
+    cmbx_listaProveedores.removeAllItems();
+
+    QueueArray<Proveedor> proveedoresTemp = new QueueArray<>();
+
+    // Recorrer la cola y agregar los proveedores al QueueArray temporal
+    while (!GestorProveedores.colaProveedores.isEmpty()) {
+        Proveedor proveedor = (Proveedor) GestorProveedores.colaProveedores.dequeue();
+        proveedoresTemp.enqueue(proveedor);
+        String descripcion = proveedor.getDescripcion();
+        cmbx_listaProveedores.addItem(descripcion);
+    }
+
+    // Repoblar la cola original con los proveedores del QueueArray temporal
+    while (!proveedoresTemp.isEmpty()) {
+        Proveedor proveedor = proveedoresTemp.dequeue();
+        GestorProveedores.colaProveedores.enqueue(proveedor);
+    }
+  }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,18 +51,55 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btn_cerrar = new javax.swing.JButton();
+        cmbx_listaProveedores = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_juegosAsociados = new javax.swing.JTable();
+        btn_mostrarJuegos = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        btn_eliminarJuego = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("Eliminar Juego");
 
-        btn_cerrar.setText("Cerrrar");
+        btn_cerrar.setText("Cerrar");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cerrarActionPerformed(evt);
             }
         });
+
+        cmbx_listaProveedores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setText("Elegir proveedor:");
+
+        tbl_juegosAsociados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "DNI", "Nombre", "Ctgoría. / Interacción", "Ctgoría / Accesorios", "Mecánica", "No. Participantes", "Edad Mín."
+            }
+        ));
+        jScrollPane1.setViewportView(tbl_juegosAsociados);
+
+        btn_mostrarJuegos.setText("Mostrar Juegos Asociados");
+        btn_mostrarJuegos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mostrarJuegosActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Juegos asociados al proveedor elegido:");
+
+        btn_eliminarJuego.setBackground(new java.awt.Color(255, 0, 0));
+        btn_eliminarJuego.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminarJuego.setText("Eliminar Juego de Pila");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,21 +107,41 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(jLabel1)
-                .addContainerGap(356, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_cerrar)
-                .addGap(35, 35, 35))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_cerrar)
+                    .addComponent(btn_eliminarJuego)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(cmbx_listaProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addComponent(btn_mostrarJuegos))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbx_listaProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_mostrarJuegos))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_eliminarJuego)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(btn_cerrar)
-                .addGap(32, 32, 32))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -72,6 +152,16 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
         GestorProveedores.ocultarEliminarJuego();
         GestorProveedores.mostrarMenuPrincipal();
     }//GEN-LAST:event_btn_cerrarActionPerformed
+
+    
+    private void btn_mostrarJuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mostrarJuegosActionPerformed
+        // TODO add your handling code here:
+        String elementoSeleccionado = (String) cmbx_listaProveedores.getSelectedItem();
+        
+        
+        
+        System.out.println("Elemento seleccionado: " + elementoSeleccionado);
+    }//GEN-LAST:event_btn_mostrarJuegosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,6 +201,13 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cerrar;
+    private javax.swing.JButton btn_eliminarJuego;
+    private javax.swing.JButton btn_mostrarJuegos;
+    private javax.swing.JComboBox<String> cmbx_listaProveedores;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbl_juegosAsociados;
     // End of variables declaration//GEN-END:variables
 }

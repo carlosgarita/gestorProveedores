@@ -53,7 +53,8 @@ public class GestorProveedores {
     }
     
     public static void mostrarEliminarJuego() {
-        ventanaEliminarProveedor.setVisible(true);
+        ventanaEliminarJuego.setVisible(true);
+        ventanaEliminarJuego.llenarComboBoxProveedores();
     }
 
     //Ocultar ventanas
