@@ -10,28 +10,27 @@ package gestorproveedores;
  */
 public class GestorProveedores {
 
+    public static int idProveedor = 1;
+    
+    public static QueueArray colaProveedores = new QueueArray();
+    public static StackArray pilaJuegos = new StackArray();
+    
+    public static GUI_MenuPrincipal ventanaPrincipal = new GUI_MenuPrincipal();
+    public static GUI_RegistroJuegos ventanaJuegos = new GUI_RegistroJuegos();
+    public static GUI_RegistroProveedores ventanaProveedores = new GUI_RegistroProveedores();
+    public static GUI_EliminarProveedor ventanaEliminarProveedor = new GUI_EliminarProveedor();
+    public static GUI_EliminarJuego ventanaEliminarJuego = new GUI_EliminarJuego();
+    
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String[] args) {
         // TODO code application logic here
         mostrarMenuPrincipal();
-        colaProveedores = new QueueArray();
-        pilaJuegos = new StackArray();
-        idProveedor = 1;
-        
-        ventanaJuegos = new GUI_RegistroJuegos();
-        ventanaProveedores = new GUI_RegistroProveedores();
     }
     
-    public static int idProveedor;
-    
-    public static QueueArray colaProveedores;
-    public static StackArray pilaJuegos;
-    
-    public static GUI_MenuPrincipal ventanaPrincipal = new GUI_MenuPrincipal();
-    public static GUI_RegistroJuegos ventanaJuegos;
-    public static GUI_RegistroProveedores ventanaProveedores;
+
     
     //Mostrar
     public static void mostrarMenuPrincipal() {
@@ -48,6 +47,14 @@ public class GestorProveedores {
         ventanaProveedores.setVisible(true);
         ventanaProveedores.mostrarDatosColaEnTabla();
     }
+    
+    public static void mostrarEliminarProveedor() {
+        ventanaEliminarProveedor.setVisible(true);
+    }
+    
+    public static void mostrarEliminarJuego() {
+        ventanaEliminarProveedor.setVisible(true);
+    }
 
     //Ocultar ventanas
     
@@ -61,6 +68,14 @@ public class GestorProveedores {
     
     public static void ocultarRegistroProveedores() {
         ventanaProveedores.setVisible(false);
+    }
+    
+    public static void ocultarEliminarProveedor() {
+        ventanaEliminarProveedor.setVisible(false);
+    }
+    
+    public static void ocultarEliminarJuego() {
+        ventanaEliminarJuego.setVisible(false);
     }
     
 }

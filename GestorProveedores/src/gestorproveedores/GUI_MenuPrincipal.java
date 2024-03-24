@@ -26,28 +26,50 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btn_registroProveedores = new javax.swing.JButton();
-        btn_registroJuegos = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btn_registroJuegos = new javax.swing.JButton();
+        btn_registroProveedores = new javax.swing.JButton();
+        btn_eliminarProveedor = new javax.swing.JButton();
+        btn_eliminarJuego = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn_registroProveedores.setText("Registro de Proveedores");
-        btn_registroProveedores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_registroProveedoresActionPerformed(evt);
-            }
-        });
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel1.setText("Gestor de Proveedores de Juegos");
 
-        btn_registroJuegos.setText("Registro de Juegos");
+        jLabel2.setText("Registro:");
+
+        jLabel3.setText("Eliminación:");
+
+        btn_registroJuegos.setText("Registrar Juego");
         btn_registroJuegos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_registroJuegosActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setText("Gestor de Proveedores de Juegos");
+        btn_registroProveedores.setText("Registrar Proveedor");
+        btn_registroProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registroProveedoresActionPerformed(evt);
+            }
+        });
+
+        btn_eliminarProveedor.setText("Eliminar Proveedor");
+        btn_eliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarProveedorActionPerformed(evt);
+            }
+        });
+
+        btn_eliminarJuego.setText("Eliminar Juego");
+        btn_eliminarJuego.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarJuegoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -57,23 +79,40 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_registroProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(btn_registroProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_registroJuegos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(118, 118, 118))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_eliminarJuego, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_eliminarProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(82, 82, 82)
-                .addComponent(btn_registroProveedores)
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addComponent(btn_registroJuegos)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_registroProveedores)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_registroJuegos))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_eliminarProveedor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminarJuego)))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         pack();
@@ -90,6 +129,18 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
         GestorProveedores.mostrarRegistroJuegos();
         GestorProveedores.ocultarMenuPrincipal();
     }//GEN-LAST:event_btn_registroJuegosActionPerformed
+
+    private void btn_eliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarProveedorActionPerformed
+        // TODO add your handling code here:
+        GestorProveedores.mostrarEliminarProveedor();
+        GestorProveedores.ocultarMenuPrincipal();
+    }//GEN-LAST:event_btn_eliminarProveedorActionPerformed
+
+    private void btn_eliminarJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarJuegoActionPerformed
+        // TODO add your handling code here:
+        GestorProveedores.mostrarEliminarJuego();
+        GestorProveedores.ocultarMenuPrincipal();
+    }//GEN-LAST:event_btn_eliminarJuegoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,8 +178,12 @@ public class GUI_MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_eliminarJuego;
+    private javax.swing.JButton btn_eliminarProveedor;
     private javax.swing.JButton btn_registroJuegos;
     private javax.swing.JButton btn_registroProveedores;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
