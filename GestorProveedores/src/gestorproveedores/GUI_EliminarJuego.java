@@ -4,6 +4,7 @@
  */
 package gestorproveedores;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,6 +41,9 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
         }
     }
 
+    //StackArray<Juego> juegoAEliminar = null;
+    StackArray<Juego> listaJuegos = null;
+    //StackArray<Juego> pilaDuplicada = null;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,6 +104,11 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
         btn_eliminarJuego.setBackground(new java.awt.Color(255, 0, 0));
         btn_eliminarJuego.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminarJuego.setText("Eliminar Juego de Pila");
+        btn_eliminarJuego.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarJuegoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,16 +165,34 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
     
     private void btn_mostrarJuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mostrarJuegosActionPerformed
         // TODO add your handling code here:
-    String elementoSeleccionado = (String) cmbx_listaProveedores.getSelectedItem();
-    QueueArray<Proveedor> proveedoresTemp = new QueueArray<>();
+        mostrarJuegosEnTabla();
+    
+    
+    }//GEN-LAST:event_btn_mostrarJuegosActionPerformed
+
+    public void limpiarTabla() {
+        DefaultTableModel model = (DefaultTableModel) tbl_juegosAsociados.getModel();
+        model.setRowCount(0);
+    }
+    
+    public void limpiarComboBox() {
+         cmbx_listaProveedores.setSelectedIndex(-1);
+    }
+    
+    private void mostrarJuegosEnTabla() {
+        limpiarTabla();
+        String elementoSeleccionado = (String) cmbx_listaProveedores.getSelectedItem();
+        QueueArray<Proveedor> proveedoresTemp = new QueueArray<>();
 
     if (elementoSeleccionado != null) {
         Proveedor proveedor;
         Juego juego;
         DefaultTableModel tableModel = (DefaultTableModel) tbl_juegosAsociados.getModel();
+        
+        StackArray<Juego> juegosTemporales = new StackArray();
 
         // Variable para verificar si se encontraron juegos asociados al proveedor seleccionado
-        boolean juegosEncontrados = false;
+        //boolean juegosEncontrados = false;
 
         // Recorrer la cola y buscar el proveedor seleccionado
         while (!GestorProveedores.colaProveedores.isEmpty()) {
@@ -173,13 +200,15 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
             proveedoresTemp.enqueue(proveedor);
 
             if (proveedor.getDescripcion().equals(elementoSeleccionado)) {
-                StackArray<Juego> listaJuegos = proveedor.getJuegosStack();
-
+                listaJuegos = proveedor.getJuegosStack();
+                   
+                
                 // Mostrar los juegos asociados a este proveedor
                 if (listaJuegos != null && !listaJuegos.isEmpty()) {
-                    juegosEncontrados = true; // Indicar que se encontraron juegos
+                    //juegosEncontrados = true; // Indicar que se encontraron juegos
                     while (!listaJuegos.isEmpty()) {
                         juego = listaJuegos.topAndPop();
+                        juegosTemporales.push(juego);
                         tableModel.addRow(new Object[] {
                             juego.getCodigoGUID(),
                             juego.getNombre(),
@@ -189,38 +218,51 @@ public class GUI_EliminarJuego extends javax.swing.JFrame {
                             juego.getNumeroParticipantes(),
                             juego.getEdadMinima()
                         });
+                        
                     }
 
                     // Devolver el proveedor a la cola original
-                    GestorProveedores.colaProveedores.enqueue(proveedor);
+                    //GestorProveedores.colaProveedores.enqueue(proveedor);
 
                     // Terminar el bucle una vez que se haya encontrado el proveedor
                     break;
                 } else {
                     // Aquí manejas el caso en el que no hay juegos disponibles
-                    System.out.println("No hay juegos disponibles para este proveedor.");
+                    JOptionPane.showMessageDialog(this, "No hay juegos disponibles para este proveedor.", "Sin Juegos Disponibles", JOptionPane.INFORMATION_MESSAGE);
                     break; // Salir del bucle ya que no hay juegos asociados
                 }
                 
-                
+               
 
             } else {
                 // Devolver los proveedores que no coinciden con el seleccionado
-                GestorProveedores.colaProveedores.enqueue(proveedor);
+                //GestorProveedores.colaProveedores.enqueue(proveedor);
             }
+             
         }
         
-        // Verificar si no se encontraron juegos asociados
-        if (!juegosEncontrados) {
-            System.out.println("No se encontraron juegos asociados al proveedor seleccionado.");
+        // Repoblar la cola original con los proveedores del QueueArray temporal
+        while (!proveedoresTemp.isEmpty()) {
+            proveedor = proveedoresTemp.dequeue();
+            GestorProveedores.colaProveedores.enqueue(proveedor);
         }
         
     } else {
         System.out.println("No se ha seleccionado ningún proveedor.");
     }
     
+    }
     
-    }//GEN-LAST:event_btn_mostrarJuegosActionPerformed
+    private void btn_eliminarJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarJuegoActionPerformed
+        // TODO add your handling code here:
+        //juegoAEliminar.pop();
+        
+        //NO PUDE HACER ESTA FUNCION.
+        //SE ME VACIA LA PILA CUANDO LA RECORRO PARA SACAR SUS DATOS.
+        //Y NO ME DIO TIEMPO DE HACERLA FUNCIONAR.
+        
+        mostrarJuegosEnTabla();
+    }//GEN-LAST:event_btn_eliminarJuegoActionPerformed
 
     /**
      * @param args the command line arguments

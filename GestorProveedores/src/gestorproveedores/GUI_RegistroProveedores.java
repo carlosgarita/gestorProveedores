@@ -4,6 +4,7 @@
  */
 package gestorproveedores;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -159,28 +160,30 @@ public class GUI_RegistroProveedores extends javax.swing.JFrame {
     
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         // TODO add your handling code here:
-        id = Integer.parseInt(lbl_IDProveedor.getText());
-        descripcion = txt_descripcion.getText();
+id = Integer.parseInt(lbl_IDProveedor.getText());
+descripcion = txt_descripcion.getText();
 
-        proveedor = new Proveedor();
+    // Validar campos vacíos
+    if (descripcion.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese una descripción.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+        return; // Detener la ejecución si el campo está vacío
+    }
+
+    proveedor = new Proveedor();
+
+    proveedor.setIdProveedor(id);
+    proveedor.setDescripcion(descripcion);
+
+    GestorProveedores.colaProveedores.enqueue(proveedor);
+
+    GestorProveedores.idProveedor++;
+    lbl_IDProveedor.setText(String.valueOf(GestorProveedores.idProveedor));
+    txt_descripcion.setText("");
+
+    // Mostrar los datos actualizados de la cola en la tabla
+    mostrarDatosColaEnTabla();
+
         
-        proveedor.setIdProveedor(id);
-        proveedor.setDescripcion(descripcion);
-        
-        GestorProveedores.colaProveedores.enqueue(proveedor);
-        
-        GestorProveedores.idProveedor++;
-        lbl_IDProveedor.setText(String.valueOf(GestorProveedores.idProveedor));
-        txt_descripcion.setText("");
-        
-        // Mostrar los datos actualizados de la cola en la tabla
-        mostrarDatosColaEnTabla();
-        
-        //System.out.println("El valor: " + GestorProveedores.colaProveedores.getFront());
-        
-        // Mostrar el contenido de la cola en la consola
-        //System.out.println("Contenido de la cola de proveedores:");
-        //System.out.println(GestorProveedores.colaProveedores.toString());
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void btn_CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CerrarActionPerformed

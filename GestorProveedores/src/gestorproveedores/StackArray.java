@@ -122,4 +122,30 @@ public class StackArray<AnyType>
     public int size() {
         return topOfStack + 1;
 }
+     // Método para duplicar la pila y conservar su contenido
+    public StackArray<AnyType> duplicateStack() {
+        // Crear una nueva instancia de StackArray
+        StackArray<AnyType> duplicatedStack = new StackArray<>();
+
+        // Crear un arreglo temporal para almacenar los elementos de la pila original
+        AnyType[] tempArray = (AnyType[]) new Object[this.size()];
+
+        // Copiar los elementos de la pila original al arreglo temporal
+        int index = 0;
+        while (!this.isEmpty()) {
+            tempArray[index++] = this.topAndPop();
+        }
+
+        // Restaurar la pila original
+        while (index > 0) {
+            this.push(tempArray[--index]);
+        }
+
+        // Copiar los elementos del arreglo temporal a la pila duplicada
+        for (AnyType item : tempArray) {
+            duplicatedStack.push(item);
+        }
+
+        return duplicatedStack;
+    }
 }

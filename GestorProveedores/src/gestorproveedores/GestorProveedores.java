@@ -41,6 +41,7 @@ public class GestorProveedores {
         ventanaJuegos.setVisible(true);
         ventanaJuegos.mostrarDatosColaEnTabla();
         ventanaJuegos.listenerTabla();
+        ventanaJuegos.limpiarCampos();
     }
     
     public static void mostrarRegistroProveedores() {
@@ -56,6 +57,8 @@ public class GestorProveedores {
     public static void mostrarEliminarJuego() {
         ventanaEliminarJuego.setVisible(true);
         ventanaEliminarJuego.llenarComboBoxProveedores();
+        ventanaEliminarJuego.limpiarTabla();
+        ventanaEliminarJuego.limpiarComboBox();
     }
 
     //Ocultar ventanas

@@ -5,6 +5,7 @@
 package gestorproveedores;
 
 import java.util.UUID;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -97,6 +98,17 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
           
           return uuid; 
       }
+    
+    public void limpiarCampos() {
+        // Limpiar campos y selecciones
+        txt_nombre.setText("");
+        cmbx_categoriaInteraccion.setSelectedIndex(-1);
+        cmbx_categoriaAccesorios.setSelectedIndex(-1);
+        cmbx_mecanica.setSelectedIndex(-1);
+        txt_numeroParticipantes.setText("");
+        txt_edadMinima.setText("");
+        tbl_proveedoresRegistrados.clearSelection();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -289,17 +301,36 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_CerrarActionPerformed
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
-        // TODO add your handling code here:
-    proveedorSeleccionado = buscarPorId(idSeleccionado);
+    // TODO add your handling code here:
     
+    proveedorSeleccionado = buscarPorId(idSeleccionado);
+
     UUID codigoUUID = GenerarUUID();
     String nombre = txt_nombre.getText();
     String categoriaInteraccion = (String) cmbx_categoriaInteraccion.getSelectedItem();
     String categoriaAccesorios = (String) cmbx_categoriaAccesorios.getSelectedItem();
     String mecanica = (String) cmbx_mecanica.getSelectedItem();
     String numeroParticipantes = txt_numeroParticipantes.getText();
-    int edadMinims = Integer.parseInt(txt_edadMinima.getText());
+    int edadMinima;
+
+    // Validar campos vacíos
+    if (nombre.isEmpty() || categoriaInteraccion == null || categoriaAccesorios == null || mecanica == null || numeroParticipantes.isEmpty() || txt_edadMinima.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
+        return; // Detener la ejecución si algún campo está vacío
+    }
     
+    if (tbl_proveedoresRegistrados.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un proveedor de la tabla.", "Proveedor no Seleccionado", JOptionPane.WARNING_MESSAGE);
+                return; // Detener la ejecución si no se ha seleccionado ninguna fila
+            }
+
+    try {
+        edadMinima = Integer.parseInt(txt_edadMinima.getText());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese una edad válida.", "Edad Inválida", JOptionPane.WARNING_MESSAGE);
+        return; // Detener la ejecución si la edad no es un número válido
+    }
+
     Juego juego = new Juego();
     juego.setCodigoGUID(codigoUUID);
     juego.setNombre(nombre);
@@ -307,37 +338,42 @@ public class GUI_RegistroJuegos extends javax.swing.JFrame {
     juego.setCategoriaAccesorios(categoriaAccesorios);
     juego.setMecanica(mecanica);
     juego.setNumeroParticipantes(numeroParticipantes);
-    juego.setEdadMinima(edadMinims);
-    
+    juego.setEdadMinima(edadMinima);
+
     StackArray<Juego> juegosStack = proveedorSeleccionado.getJuegosStack();
-    
+
     if (juegosStack == null) {
         juegosStack = new StackArray<>(); // Crear una nueva instancia de StackArray
         proveedorSeleccionado.setJuegosStack(juegosStack);
     }
-    
+
     juegosStack.push(juego); // Agregar el juego a la pila
-    
-    
+
+
     //Para corroborar:
-            UUID codigoJuego = juego.getCodigoGUID();
-            String nombreJuego = juego.getNombre();
-            String categoriaInteraccionJuego = juego.getCategoriaInteraccion();
-            String categoriaAccesoriosJuego = juego.getCategoriaAccesorios();
-            String mecanicaJuego = juego.getMecanica();
-            String numeroParticipantesJuego = juego.getNumeroParticipantes();
-            int edadMinimsJuego = juego.getEdadMinima();
-                    
-            System.out.println("Codigo del juego guardado: " + codigoJuego);
-            System.out.println("Nombre del juego guardado: " + nombreJuego);
-            System.out.println("Categ. Inter. del juego guardado: " + categoriaInteraccionJuego);
-            System.out.println("Categ. Acces. del juego guardado: " + categoriaAccesoriosJuego);
-            System.out.println("Mecanica del juego guardado: " + mecanicaJuego);
-            System.out.println("Numero Part. del juego guardado: " + numeroParticipantesJuego);
-            System.out.println("Edad Minima del juego guardado: " + edadMinimsJuego);
-            
-            System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
-            
+    UUID codigoJuego = juego.getCodigoGUID();
+    String nombreJuego = juego.getNombre();
+    String categoriaInteraccionJuego = juego.getCategoriaInteraccion();
+    String categoriaAccesoriosJuego = juego.getCategoriaAccesorios();
+    String mecanicaJuego = juego.getMecanica();
+    String numeroParticipantesJuego = juego.getNumeroParticipantes();
+    int edadMinimsJuego = juego.getEdadMinima();
+
+    System.out.println("Codigo del juego guardado: " + codigoJuego);
+    System.out.println("Nombre del juego guardado: " + nombreJuego);
+    System.out.println("Categ. Inter. del juego guardado: " + categoriaInteraccionJuego);
+    System.out.println("Categ. Acces. del juego guardado: " + categoriaAccesoriosJuego);
+    System.out.println("Mecanica del juego guardado: " + mecanicaJuego);
+    System.out.println("Numero Part. del juego guardado: " + numeroParticipantesJuego);
+    System.out.println("Edad Minima del juego guardado: " + edadMinimsJuego);
+
+    System.out.println("Proveedor seleccionado: " + proveedorSeleccionado.getDescripcion());
+
+    // Mostrar mensaje de éxito
+    JOptionPane.showMessageDialog(this, "¡Los datos se han guardado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+    limpiarCampos();
+    
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     /**
